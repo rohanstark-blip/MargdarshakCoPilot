@@ -1,0 +1,9 @@
+# Node modules (The heavy stuff!)
+node_modules/
+
+# Production build folders
+dist/
+build/
+
+# Environment variables
+.env

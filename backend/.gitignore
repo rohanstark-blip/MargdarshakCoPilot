@@ -1,0 +1,12 @@
+# Python environment and cache files
+__pycache__/
+*.pyc
+venv/
+env/
+.venv/
+
+# Environment variables (Never share API keys!)
+.env
+
+# Uploaded PDFs during testing
+*.pdf
