@@ -1,6 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pdf_reader import extract_text_from_pdf
+from logic_engine import validate_application
 
 # Initialize the FastAPI app
 app = FastAPI(
@@ -32,16 +34,9 @@ async def validate_form(
     document: UploadFile = File(...)
 ):
     file_bytes = await document.read()
-    
-    # 🛑 TEAMMATE LOGIC INTEGRATION ZONE 🛑
-    # extracted_text = extract_text_from_pdf(file_bytes)
-    # validation_result = validate_application(extracted_text, name, dob)
-    
-    return {
-        "status": "warning",
-        "error_code": "NAME_MISMATCH",
-        "message": f"Name mismatch detected. The name '{name}' does not confidently match the uploaded document."
-    }
+    extracted_text = extract_text_from_pdf(file_bytes)
+    validation_result = validate_application(extracted_text, name, dob)
+    return validation_result
 
 # ---------------------------------------------------------
 # 3. ENDPOINT 2: CHATBOT ASSISTANT

@@ -133,17 +133,17 @@ def validate_application(raw_document_text, input_name, input_dob):
         clean_text = re.sub(r'\s+', ' ', raw_document_text)  # Replace all whitespace with single space
         
         # Extract names: Look for "Name:" followed by the actual name
+        stop = r'(?=\s+(?:Date|DOB|Age|Gender|Aadhaar|Address|Father|Mother|Husband|Wife|S/O|D/O|W/O)\b|$)'
         name_patterns = [
-            r'Name\s*[:=]\s*([A-Z][a-z]+)\s+([A-Z][a-z]+)(?:\s|$)',  # Name: John Doe (2 words only)
-            r'(?:Full\s+)?Name\s*[:=]\s*([A-Z][a-z]+)\s+([A-Z][a-z]+)(?:\s|$)',
-            r'Applicant[^:]*[:=]\s*([A-Z][a-z]+)\s+([A-Z][a-z]+)(?:\s|$)',  # Applicant: John Doe
+            rf'Name\s*[:=]\s*((?:[A-Z][a-z]+\s+){{0,4}}[A-Z][a-z]+){stop}',
+            rf'(?:Full\s+)?Name\s*[:=]\s*((?:[A-Z][a-z]+\s+){{0,4}}[A-Z][a-z]+){stop}',
+            rf'Applicant[^:]*[:=]\s*((?:[A-Z][a-z]+\s+){{0,4}}[A-Z][a-z]+){stop}',
         ]
-        
+
         extracted_names = []
         for pattern in name_patterns:
             matches = re.findall(pattern, clean_text)
-            # Combine captured groups (first_name, last_name) into full name
-            extracted_names.extend([f"{first} {last}" for first, last in matches])
+            extracted_names.extend(matches)
         
         # Clean up and remove duplicates
         extracted_names = [name.strip() for name in extracted_names]
