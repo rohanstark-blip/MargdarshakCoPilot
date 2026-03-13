@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Satoshi', system-ui, sans-serif;
+  background: #F2EFEA;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #FF6B2B;
+  color: white;
+}
+
+/* Neo-brutal inputs */
+.brutal-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: #FFFFFF;
+  border: 3px solid #1A1A1A;
+  color: #1A1A1A;
+  font-family: 'Satoshi', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.brutal-input::placeholder {
+  color: #888580;
+  font-weight: 400;
+}
+
+.brutal-input:focus {
+  box-shadow: 4px 4px 0px #FF6B2B;
+  transform: translate(-2px, -2px);
+}
+
+/* Upload zone */
+.brutal-upload {
+  border: 3px dashed #1A1A1A;
+  padding: 36px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  background: #FFFFFF;
+}
+
+.brutal-upload:hover {
+  box-shadow: 4px 4px 0px #1A1A1A;
+  transform: translate(-2px, -2px);
+}
+
+.brutal-upload.dragging {
+  border-style: solid;
+  background: #CDFE04;
+  box-shadow: 4px 4px 0px #1A1A1A;
+  transform: translate(-2px, -2px);
+}
+
+.brutal-upload.has-file {
+  border-style: solid;
+  background: #CDFE04;
+}
+
+/* Stamp */
+.stamp-box {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 4px solid currentColor;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+/* Chat scroll */
+.chat-scroll::-webkit-scrollbar { width: 6px; }
+.chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.chat-scroll::-webkit-scrollbar-thumb { background: #1A1A1A; }
+
+/* Stagger */
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.1s; }
+.d3 { animation-delay: 0.15s; }
+.d4 { animation-delay: 0.2s; }
+.d5 { animation-delay: 0.25s; }
