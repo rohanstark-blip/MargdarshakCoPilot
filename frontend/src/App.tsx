@@ -61,7 +61,13 @@ function ScoreBlock({ label, value, match }: { label: string; value: number; mat
 
 export default function App() {
   const [name, setName] = useState("");
+  const [fatherName, setFatherName] = useState("");
   const [dob, setDob] = useState("");
+  const [gender, setGender] = useState("");
+  const [aadhaar, setAadhaar] = useState("");
+  const [serviceType, setServiceType] = useState("");
+  const [docType, setDocType] = useState("");
+  const [district, setDistrict] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [status, setStatus] = useState<VStatus>("idle");
@@ -143,7 +149,11 @@ export default function App() {
     }
   };
 
-  const reset = () => { setName(""); setDob(""); setFile(null); setStatus("idle"); setResult(null); };
+  const reset = () => {
+    setName(""); setFatherName(""); setDob(""); setGender("");
+    setAadhaar(""); setServiceType(""); setDocType(""); setDistrict("");
+    setFile(null); setStatus("idle"); setResult(null);
+  };
 
   const topics = [
     { code: "NAME_MISMATCH", hi: "नाम मिसमैच", en: "Name mismatch" },
@@ -195,42 +205,149 @@ export default function App() {
 
             <div className="bg-white border-[3px] border-brutal-black shadow-brutal-lg">
               <form onSubmit={handleSubmit}>
+                {/* Form title bar */}
+                <div className="bg-brutal-black text-white px-6 lg:px-8 py-3 flex items-center justify-between">
+                  <span className="font-mono text-xs font-bold tracking-wider">APPLICATION FORM — CSC VERIFICATION</span>
+                  <span className="font-mono text-[10px] text-brutal-darkgrey">FIELDS MARKED <span className="text-saffron">*</span> ARE REQUIRED</span>
+                </div>
+
                 <div className="p-6 lg:p-8 space-y-6">
 
-                  {/* Name */}
-                  <div className="animate-slide-up d2">
-                    <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
-                      Applicant Name <span className="text-saffron">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Rajesh Kumar Singh"
-                      required
-                      className="brutal-input"
-                    />
+                  {/* ── Row 1: Name + Father's Name ── */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Applicant Name <span className="text-saffron">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Rajesh Kumar Singh"
+                        required
+                        className="brutal-input"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Father's / Husband's Name
+                      </label>
+                      <input
+                        type="text"
+                        value={fatherName}
+                        onChange={(e) => setFatherName(e.target.value)}
+                        placeholder="Ramesh Kumar Singh"
+                        className="brutal-input"
+                      />
+                    </div>
                   </div>
 
-                  {/* DOB */}
-                  <div className="animate-slide-up d3">
-                    <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
-                      Date of Birth <span className="text-saffron">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={dob}
-                      onChange={(e) => setDob(e.target.value)}
-                      placeholder="DD-MM-YYYY"
-                      required
-                      className="brutal-input font-mono"
-                    />
+                  {/* ── Row 2: DOB + Gender + Aadhaar ── */}
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Date of Birth <span className="text-saffron">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                        placeholder="DD-MM-YYYY"
+                        required
+                        className="brutal-input font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Gender
+                      </label>
+                      <select
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        className="brutal-input"
+                      >
+                        <option value="">Select</option>
+                        <option value="male">Male / पुरुष</option>
+                        <option value="female">Female / महिला</option>
+                        <option value="other">Other / अन्य</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Aadhaar Number
+                      </label>
+                      <input
+                        type="text"
+                        value={aadhaar}
+                        onChange={(e) => setAadhaar(e.target.value)}
+                        placeholder="XXXX XXXX XXXX"
+                        maxLength={14}
+                        className="brutal-input font-mono tracking-widest"
+                      />
+                    </div>
                   </div>
 
-                  {/* Upload */}
-                  <div className="animate-slide-up d4">
+                  {/* ── Row 3: Service Type + Document Type + District ── */}
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Service Type
+                      </label>
+                      <select
+                        value={serviceType}
+                        onChange={(e) => setServiceType(e.target.value)}
+                        className="brutal-input"
+                      >
+                        <option value="">Select Service</option>
+                        <option value="old_age_pension">Old Age Pension</option>
+                        <option value="disability_pension">Disability Pension</option>
+                        <option value="widow_pension">Widow Pension</option>
+                        <option value="scholarship">Scholarship (SC/ST/OBC)</option>
+                        <option value="domicile">Domicile Certificate</option>
+                        <option value="income_cert">Income Certificate</option>
+                        <option value="aadhaar_update">Aadhaar Update</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        Document Type <span className="text-saffron">*</span>
+                      </label>
+                      <select
+                        value={docType}
+                        onChange={(e) => setDocType(e.target.value)}
+                        className="brutal-input"
+                      >
+                        <option value="">Select Document</option>
+                        <option value="aadhaar">Aadhaar Card</option>
+                        <option value="pan">PAN Card</option>
+                        <option value="voter_id">Voter ID</option>
+                        <option value="pension_cert">Pension Certificate</option>
+                        <option value="domicile_cert">Domicile Certificate</option>
+                        <option value="income_cert">Income Certificate</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
+                        District / जिला
+                      </label>
+                      <input
+                        type="text"
+                        value={district}
+                        onChange={(e) => setDistrict(e.target.value)}
+                        placeholder="e.g. Lucknow"
+                        className="brutal-input"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="border-t-2 border-dashed border-brutal-black" />
+
+                  {/* ── Document Upload ── */}
+                  <div>
                     <label className="block font-mono text-xs font-bold uppercase tracking-wider mb-2">
-                      Document Upload <span className="text-saffron">*</span>
+                      Upload Supporting Document (PDF) <span className="text-saffron">*</span>
                     </label>
                     <div
                       onClick={() => fileRef.current?.click()}
@@ -268,7 +385,7 @@ export default function App() {
                             Drop PDF or <span className="text-saffron font-bold underline decoration-2 underline-offset-2">browse</span>
                           </p>
                           <p className="font-mono text-[11px] text-brutal-darkgrey">
-                            Aadhaar / Pension / Domicile
+                            Aadhaar / Pension / Domicile / PAN / Voter ID
                           </p>
                         </div>
                       )}
