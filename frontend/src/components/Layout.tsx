@@ -118,10 +118,8 @@ export default function Layout() {
               <span className="text-[10px] font-bold text-gov-gray-700 block">Digital India</span>
               <span className="text-[9px] text-gov-gray-400 block">डिजिटल इंडिया</span>
             </div>
-            <div className="bg-gov-blue text-white flex items-center gap-2 rounded-full px-4 py-2 cursor-pointer">
-              <span className="text-xs">🌐</span>
+            <div className="bg-gov-blue text-white flex items-center gap-2 rounded-full px-4 py-2">
               <span className="text-xs font-semibold">English</span>
-              <ChevronDown size={10} />
             </div>
           </div>
         </div>
