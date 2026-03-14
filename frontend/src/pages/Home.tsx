@@ -1,18 +1,12 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, FileText, Users, Clock, AlertCircle, ExternalLink, Phone, Mail, MapPin, Fingerprint } from "lucide-react";
+import { useLang } from "@/context/LangContext";
 
 const services = [
-  { path: "/old-age-pension", title: "Old Age Pension", hindi: "वृद्धा पेंशन योजना", desc: "IGNOAPS pension for citizens aged 60+", icon: "🧓" },
-  { path: "/domicile-certificate", title: "Domicile Certificate", hindi: "निवास प्रमाण पत्र", desc: "Certified proof of state residence", icon: "🏠" },
-  { path: "/income-certificate", title: "Income Certificate", hindi: "आय प्रमाण पत्र", desc: "Annual household income certification", icon: "💰" },
-  { path: "/caste-certificate", title: "Caste Certificate", hindi: "जाति प्रमाण पत्र", desc: "SC/ST/OBC caste verification", icon: "📋" },
-];
-
-const stats = [
-  { icon: FileText, value: "4", label: "Services Available" },
-  { icon: Users, value: "1.2L+", label: "Applications Processed" },
-  { icon: Shield, value: "99.2%", label: "Validation Accuracy" },
-  { icon: Clock, value: "<30s", label: "Avg Processing Time" },
+  { path: "/old-age-pension", en: "Old Age Pension", hi: "वृद्धा पेंशन योजना", descEn: "IGNOAPS pension for citizens aged 60+", descHi: "60+ नागरिकों के लिए IGNOAPS पेंशन", icon: "🧓" },
+  { path: "/domicile-certificate", en: "Domicile Certificate", hi: "निवास प्रमाण पत्र", descEn: "Certified proof of state residence", descHi: "राज्य निवास का प्रमाणित प्रमाण", icon: "🏠" },
+  { path: "/income-certificate", en: "Income Certificate", hi: "आय प्रमाण पत्र", descEn: "Annual household income certification", descHi: "वार्षिक घरेलू आय प्रमाणन", icon: "💰" },
+  { path: "/caste-certificate", en: "Caste Certificate", hi: "जाति प्रमाण पत्र", descEn: "SC/ST/OBC caste verification", descHi: "SC/ST/OBC जाति सत्यापन", icon: "📋" },
 ];
 
 const announcements = [
@@ -31,6 +25,7 @@ const updates = [
 ];
 
 export default function Home() {
+  const { t } = useLang();
   return (
     <div className="bg-gov-gray-50">
       {/* Announcement ticker */}
@@ -67,12 +62,14 @@ export default function Home() {
                 MARGDARSHAK<br />CO-PILOT
               </h1>
               <p className="text-sm leading-relaxed mb-6 max-w-md mx-auto lg:mx-0 font-semibold tracking-wide uppercase" style={{ color: "#a0aec0" }}>
-                Margdarshak (मार्गदर्शक) AI-powered validation engine for Common Service Centre
-                operators to verify documents, catch errors, and assist citizens efficiently.
+                {t(
+                  "Margdarshak (मार्गदर्शक) AI-powered validation engine for Common Service Centre operators to verify documents, catch errors, and assist citizens efficiently.",
+                  "मार्गदर्शक — CSC ऑपरेटरों के लिए AI-संचालित सत्यापन इंजन। दस्तावेज़ सत्यापित करें, त्रुटियाँ पकड़ें, और नागरिकों की कुशलता से सहायता करें।"
+                )}
               </p>
               <Link to="/old-age-pension"
                 className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold rounded shadow-md uppercase tracking-wider" style={{ background: "#2b6cb0", color: "#ffffff" }}>
-                Read More <ArrowRight size={14} />
+                {t("Read More", "और पढ़ें")} <ArrowRight size={14} />
               </Link>
             </div>
 
@@ -131,7 +128,7 @@ export default function Home() {
 
             {/* Services */}
             <div>
-              <div className="section-header mb-4">AVAILABLE SERVICES / उपलब्ध सेवाएं</div>
+              <div className="section-header mb-4">{t("AVAILABLE SERVICES", "उपलब्ध सेवाएं")}</div>
               <div className="grid sm:grid-cols-2 gap-4">
                 {services.map((s) => (
                   <Link key={s.path} to={s.path}
@@ -139,13 +136,12 @@ export default function Home() {
                     <div className="flex items-start gap-3 mb-2">
                       <span className="text-2xl">{s.icon}</span>
                       <div className="flex-1">
-                        <h3 className="text-sm font-bold text-gov-gray-800">{s.title}</h3>
-                        <p className="text-xs text-gov-gray-400 font-medium">{s.hindi}</p>
+                        <h3 className="text-sm font-bold text-gov-gray-800">{t(s.en, s.hi)}</h3>
                       </div>
                     </div>
-                    <p className="text-xs text-gov-gray-500 mb-3">{s.desc}</p>
+                    <p className="text-xs text-gov-gray-500 mb-3">{t(s.descEn, s.descHi)}</p>
                     <span className="text-xs font-semibold text-gov-blue-light group-hover:text-gov-blue flex items-center gap-1">
-                      Apply Now <ArrowRight size={12} />
+                      {t("Apply Now", "अभी आवेदन करें")} <ArrowRight size={12} />
                     </span>
                   </Link>
                 ))}
@@ -154,20 +150,19 @@ export default function Home() {
 
             {/* How it works */}
             <div>
-              <div className="section-header mb-4">HOW IT WORKS / कैसे काम करता है</div>
+              <div className="section-header mb-4">{t("HOW IT WORKS", "कैसे काम करता है")}</div>
               <div className="grid sm:grid-cols-3 gap-4">
                 {[
-                  { step: "01", title: "Fill Form", hindi: "फॉर्म भरें", desc: "Operator fills the application form with citizen's details" },
-                  { step: "02", title: "Upload PDF", hindi: "दस्तावेज़ अपलोड", desc: "Upload Aadhaar, pension cert, or other documents" },
-                  { step: "03", title: "AI Validates", hindi: "AI सत्यापन", desc: "NLP engine extracts entities and matches against inputs" },
+                  { step: "01", en: "Fill Form", hi: "फॉर्म भरें", descEn: "Operator fills the application form with citizen's details", descHi: "ऑपरेटर नागरिक के विवरण के साथ आवेदन पत्र भरता है" },
+                  { step: "02", en: "Upload PDF", hi: "दस्तावेज़ अपलोड", descEn: "Upload Aadhaar, pension cert, or other documents", descHi: "आधार, पेंशन प्रमाण पत्र, या अन्य दस्तावेज़ अपलोड करें" },
+                  { step: "03", en: "AI Validates", hi: "AI सत्यापन", descEn: "NLP engine extracts entities and matches against inputs", descHi: "NLP इंजन इकाइयाँ निकालता है और इनपुट से मिलान करता है" },
                 ].map((item) => (
                   <div key={item.step} className="bg-white rounded-md border border-gov-gray-200 p-5">
                     <div className="w-9 h-9 rounded-full bg-gov-blue text-white flex items-center justify-center text-sm font-bold mb-3">
                       {item.step}
                     </div>
-                    <h4 className="text-sm font-bold text-gov-gray-800">{item.title}</h4>
-                    <p className="text-[11px] text-gov-gray-400 font-medium mb-2">{item.hindi}</p>
-                    <p className="text-xs text-gov-gray-500 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-sm font-bold text-gov-gray-800">{t(item.en, item.hi)}</h4>
+                    <p className="text-xs text-gov-gray-500 leading-relaxed mt-2">{t(item.descEn, item.descHi)}</p>
                   </div>
                 ))}
               </div>
@@ -175,16 +170,18 @@ export default function Home() {
 
             {/* About */}
             <div className="bg-white rounded-md border border-gov-gray-200 p-6">
-              <div className="section-header mb-4">ABOUT MARGDARSHAK / मार्गदर्शक के बारे में</div>
+              <div className="section-header mb-4">{t("ABOUT MARGDARSHAK", "मार्गदर्शक के बारे में")}</div>
               <p className="text-sm text-gov-gray-600 leading-relaxed mb-3">
-                <strong>Margdarshak</strong> (मार्गदर्शक — "The Guide") is an AI-powered co-pilot built for India's
-                4 lakh+ Common Service Centres (CSCs). It enables operators to validate citizen documents
-                in real-time using Natural Language Processing (spaCy NER) and fuzzy string matching (RapidFuzz).
+                {t(
+                  "Margdarshak (मार्गदर्शक — \"The Guide\") is an AI-powered co-pilot built for India's 4 lakh+ Common Service Centres (CSCs). It enables operators to validate citizen documents in real-time using Natural Language Processing (spaCy NER) and fuzzy string matching (RapidFuzz).",
+                  "मार्गदर्शक भारत के 4 लाख+ जन सेवा केंद्रों (CSC) के लिए बनाया गया AI-संचालित सह-पायलट है। यह ऑपरेटरों को NLP (spaCy NER) और फ़ज़ी स्ट्रिंग मैचिंग (RapidFuzz) का उपयोग करके नागरिक दस्तावेज़ों को रियल-टाइम में सत्यापित करने में सक्षम बनाता है।"
+                )}
               </p>
               <p className="text-sm text-gov-gray-600 leading-relaxed">
-                The platform catches errors like name mismatches, incorrect dates, and unreadable documents
-                before applications reach the backend — reducing bouncebacks by 85% and processing time
-                to under 30 seconds. Supports Hindi/English bilingual guidance via the सहायक AI assistant.
+                {t(
+                  "The platform catches errors like name mismatches, incorrect dates, and unreadable documents before applications reach the backend — reducing bouncebacks by 85% and processing time to under 30 seconds. Supports Hindi/English bilingual guidance via the सहायक AI assistant.",
+                  "यह प्लेटफ़ॉर्म नाम बेमेल, गलत तिथियाँ और अपठनीय दस्तावेज़ जैसी त्रुटियाँ पकड़ता है — आवेदन अस्वीकृति को 85% कम करता है और प्रसंस्करण समय 30 सेकंड से कम करता है। सहायक AI सहायक के माध्यम से हिंदी/अंग्रेज़ी द्विभाषी मार्गदर्शन।"
+                )}
               </p>
             </div>
           </div>
@@ -195,7 +192,7 @@ export default function Home() {
             {/* Latest updates — like "LATEST @ NTA" */}
             <div className="bg-white rounded-md border border-gov-gray-200 overflow-hidden">
               <div className="bg-gov-navy text-white px-4 py-3">
-                <span className="text-sm font-bold">LATEST @ MARGDARSHAK</span>
+                <span className="text-sm font-bold">{t("LATEST @ MARGDARSHAK", "नवीनतम अपडेट")}</span>
               </div>
               <div className="divide-y divide-gov-gray-100 max-h-[380px] overflow-y-auto">
                 {updates.map((u, i) => (
@@ -218,7 +215,7 @@ export default function Home() {
             {/* Quick links */}
             <div className="bg-white rounded-md border border-gov-gray-200 overflow-hidden">
               <div className="bg-gov-blue text-white px-4 py-3">
-                <span className="text-sm font-bold">QUICK LINKS / त्वरित लिंक</span>
+                <span className="text-sm font-bold">{t("QUICK LINKS", "त्वरित लिंक")}</span>
               </div>
               <div className="divide-y divide-gov-gray-100">
                 {["CSC Portal", "eDistrict UP", "UMANG App", "DigiLocker", "Aadhaar Portal", "PFMS Portal"].map((l) => (
@@ -236,10 +233,12 @@ export default function Home() {
               <div className="flex items-start gap-2">
                 <AlertCircle size={16} className="text-gov-gray-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-xs font-bold text-gov-gray-800 mb-1">IMPORTANT NOTICE</p>
+                  <p className="text-xs font-bold text-gov-gray-800 mb-1">{t("IMPORTANT NOTICE", "महत्वपूर्ण सूचना")}</p>
                   <p className="text-xs text-gov-gray-600 leading-relaxed">
-                    All applications must include original PDF documents. Scanned images are not
-                    supported. Ensure documents are text-based PDFs for validation.
+                    {t(
+                      "All applications must include original PDF documents. Scanned images are also supported via OCR. Ensure documents are clear for accurate validation.",
+                      "सभी आवेदनों में मूल PDF दस्तावेज़ शामिल होने चाहिए। स्कैन की गई छवियाँ भी OCR के माध्यम से समर्थित हैं। सटीक सत्यापन के लिए दस्तावेज़ स्पष्ट होने चाहिए।"
+                    )}
                   </p>
                 </div>
               </div>
@@ -248,7 +247,7 @@ export default function Home() {
             {/* Helpdesk */}
             <div className="bg-white rounded-md border border-gov-gray-200 overflow-hidden">
               <div className="bg-gov-navy text-white px-4 py-3">
-                <span className="text-sm font-bold">HELPDESK / हेल्पडेस्क</span>
+                <span className="text-sm font-bold">{t("HELPDESK", "हेल्पडेस्क")}</span>
               </div>
               <div className="p-4 space-y-2.5">
                 <div className="flex items-center gap-2.5">

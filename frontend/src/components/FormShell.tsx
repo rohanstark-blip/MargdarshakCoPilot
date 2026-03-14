@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import { useLang } from "@/context/LangContext";
 
 const API = "http://localhost:8000";
 
@@ -74,6 +75,7 @@ interface FormShellProps {
 }
 
 export default function FormShell({ title, titleHindi, children }: FormShellProps) {
+  const { t } = useLang();
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
   const [village, setVillage] = useState("");
@@ -220,7 +222,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
             <form onSubmit={handleSubmit}>
               {/* Form header */}
               <div className="bg-gov-blue text-white px-6 py-3 flex items-center justify-between">
-                <span className="text-sm font-bold">Application Form</span>
+                <span className="text-sm font-bold">{t("Application Form", "आवेदन पत्र")}</span>
                 <span className="text-xs text-white/60">
                   <span className="text-gov-saffron">*</span> Required fields
                 </span>
@@ -270,13 +272,13 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
               <div className="border-t border-gov-gray-200 px-6 py-4 bg-gov-gray-50 flex items-center gap-3">
                 <button type="submit" disabled={!name || !dob || !file || status === "loading"}
                   className="flex items-center gap-2 px-6 py-2.5 bg-gov-blue text-white text-sm font-semibold rounded hover:bg-gov-blue-hover transition-colors shadow-sm disabled:opacity-40 disabled:cursor-not-allowed">
-                  {status === "loading" ? (<><Loader2 size={15} className="animate-spin" />Verifying...</>)
-                    : (<>Verify & Submit<ArrowRight size={15} /></>)}
+                  {status === "loading" ? (<><Loader2 size={15} className="animate-spin" />{t("Verifying...", "सत्यापित हो रहा है...")}</>)
+                    : (<>{t("Verify & Submit", "सत्यापित करें")}<ArrowRight size={15} /></>)}
                 </button>
                 {status !== "idle" && status !== "loading" && (
                   <button type="button" onClick={reset}
                     className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-gov-gray-600 border border-gov-gray-300 rounded hover:bg-gov-gray-100 transition-colors">
-                    <RotateCcw size={14} /> Clear Form
+                    <RotateCcw size={14} /> {t("Clear Form", "फॉर्म साफ करें")}
                   </button>
                 )}
               </div>
@@ -329,7 +331,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
         <section>
           <div className="bg-white rounded-md border border-gov-gray-200 shadow-sm flex flex-col h-[480px] lg:h-[600px] lg:sticky lg:top-4 overflow-hidden">
             <div className="bg-gov-blue text-white px-4 py-3 flex items-center justify-between">
-              <span className="text-sm font-bold">सहायक / AI Help</span>
+              <span className="text-sm font-bold">{t("AI Help / सहायक", "सहायक / AI Help")}</span>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-white/60 animate-pulse" />
                 <span className="text-[10px] text-white/80">Online</span>
@@ -395,7 +397,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
                   value={chatInput}
                   onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleChatSubmit()}
-                  placeholder="Type your question..."
+                  placeholder={t("Type your question...", "अपना प्रश्न लिखें...")}
                   disabled={chatLoading}
                   className="flex-1 px-3 py-2 text-sm border border-gov-gray-200 rounded outline-none focus:border-gov-blue-light disabled:opacity-50"
                 />
