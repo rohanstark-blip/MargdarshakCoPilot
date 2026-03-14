@@ -51,6 +51,22 @@ def _extract_names_spacy(text):
     return list(dict.fromkeys(cleaned))
 
 
+FIELD_BOUNDARY = r'(?=\s*(?:Father|Mother|Husband|Wife|Date|DOB|Gender|Address|Aadhaar|Mobile|Phone|Certificate|District|Village|State|Pin|$))'
+
+def _extract_names_regex(text):
+    """Primary name extraction for structured govt docs with 'Name: ...' fields."""
+    patterns = [
+        r'(?:Applicant\s+)?Name\s*[:\-]\s*(?:Shri\s+|Smt\.?\s+|Mr\.?\s+|Mrs\.?\s+|Ms\.?\s+)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4})' + FIELD_BOUNDARY,
+        r'Father(?:\'?s?)?\s*Name\s*[:\-]\s*(?:Shri\s+|Smt\.?\s+|Mr\.?\s+)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4})' + FIELD_BOUNDARY,
+        r'Mother(?:\'?s?)?\s*Name\s*[:\-]\s*(?:Smt\.?\s+|Mrs\.?\s+)?([A-Z][a-z]+(?:\s+[A-Z][a-z]+){1,4})' + FIELD_BOUNDARY,
+    ]
+    names = []
+    for p in patterns:
+        matches = re.findall(p, text)
+        names.extend(m.strip() for m in matches if len(m.strip()) >= 3)
+    return list(dict.fromkeys(names))
+
+
 def _extract_dates_spacy(text):
     """Extract DATE entities via spaCy NER."""
     if not nlp:
@@ -100,8 +116,11 @@ def validate_application(raw_document_text, input_name, input_dob):
         # === STEP 1: Entity extraction via spaCy ===
         clean_text = re.sub(r'\s+', ' ', raw_document_text)
 
-        extracted_names = _extract_names_spacy(clean_text)
-        logger.info(f"spaCy names: {extracted_names}")
+        spacy_names = _extract_names_spacy(clean_text)
+        regex_names = _extract_names_regex(clean_text)
+        # Prefer regex names (more precise for structured docs) then spaCy
+        extracted_names = list(dict.fromkeys(regex_names + spacy_names))
+        logger.info(f"Names (regex: {regex_names}, spaCy: {spacy_names}) → merged: {extracted_names}")
 
         # For dates, spaCy + regex fallback (spaCy often returns "33" for age as DATE)
         extracted_dates = _extract_dates_spacy(clean_text)
