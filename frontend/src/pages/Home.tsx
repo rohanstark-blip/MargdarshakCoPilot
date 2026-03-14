@@ -36,14 +36,14 @@ export default function Home() {
       {/* Announcement ticker */}
       <div className="bg-gov-blue-dark overflow-hidden">
         <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-2 flex items-center gap-3">
-          <span className="bg-gov-saffron text-white text-[10px] font-bold px-2 py-0.5 rounded-sm flex-shrink-0">
+          <span className="bg-gov-navy text-white text-[10px] font-bold px-2 py-0.5 rounded-sm flex-shrink-0">
             NOTICE
           </span>
           <div className="overflow-hidden flex-1">
             <div className="animate-marquee whitespace-nowrap">
               {announcements.concat(announcements).map((a, i) => (
                 <span key={i} className="text-xs text-gov-gray-300 mx-6">
-                  <span className="text-gov-saffron mr-1">●</span>{a}
+                  <span className="text-gov-gray-400 mr-1">●</span>{a}
                 </span>
               ))}
             </div>
@@ -106,7 +106,7 @@ export default function Home() {
       </div>
 
       {/* Stats bar */}
-      <div className="bg-gov-saffron">
+      <div className="bg-gov-navy">
         <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s) => (
@@ -140,7 +140,7 @@ export default function Home() {
                       <span className="text-2xl">{s.icon}</span>
                       <div className="flex-1">
                         <h3 className="text-sm font-bold text-gov-gray-800">{s.title}</h3>
-                        <p className="text-xs text-gov-saffron font-medium">{s.hindi}</p>
+                        <p className="text-xs text-gov-gray-400 font-medium">{s.hindi}</p>
                       </div>
                     </div>
                     <p className="text-xs text-gov-gray-500 mb-3">{s.desc}</p>
@@ -154,7 +154,7 @@ export default function Home() {
 
             {/* How it works */}
             <div>
-              <div className="section-header-orange mb-4">HOW IT WORKS / कैसे काम करता है</div>
+              <div className="section-header mb-4">HOW IT WORKS / कैसे काम करता है</div>
               <div className="grid sm:grid-cols-3 gap-4">
                 {[
                   { step: "01", title: "Fill Form", hindi: "फॉर्म भरें", desc: "Operator fills the application form with citizen's details" },
@@ -166,7 +166,7 @@ export default function Home() {
                       {item.step}
                     </div>
                     <h4 className="text-sm font-bold text-gov-gray-800">{item.title}</h4>
-                    <p className="text-[11px] text-gov-saffron font-medium mb-2">{item.hindi}</p>
+                    <p className="text-[11px] text-gov-gray-400 font-medium mb-2">{item.hindi}</p>
                     <p className="text-xs text-gov-gray-500 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
@@ -194,14 +194,14 @@ export default function Home() {
 
             {/* Latest updates — like "LATEST @ NTA" */}
             <div className="bg-white rounded-md border border-gov-gray-200 overflow-hidden">
-              <div className="bg-gov-saffron text-white px-4 py-3">
+              <div className="bg-gov-navy text-white px-4 py-3">
                 <span className="text-sm font-bold">LATEST @ MARGDARSHAK</span>
               </div>
               <div className="divide-y divide-gov-gray-100 max-h-[380px] overflow-y-auto">
                 {updates.map((u, i) => (
                   <div key={i} className="px-4 py-3 hover:bg-gov-gray-50 transition-colors">
                     <p className="text-xs text-gov-gray-700 leading-relaxed">
-                      <span className="text-gov-saffron mr-1">●</span>
+                      <span className="text-gov-gray-400 mr-1">●</span>
                       {u.text}
                       {u.tag && (
                         <span className="inline-block bg-red-600 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-sm ml-1.5 align-middle">
@@ -232,9 +232,9 @@ export default function Home() {
             </div>
 
             {/* Important notice */}
-            <div className="bg-gov-cream rounded-md border border-yellow-300 p-4">
+            <div className="bg-gov-gray-50 rounded-md border border-gov-gray-300 p-4">
               <div className="flex items-start gap-2">
-                <AlertCircle size={16} className="text-yellow-600 flex-shrink-0 mt-0.5" />
+                <AlertCircle size={16} className="text-gov-gray-500 flex-shrink-0 mt-0.5" />
                 <div>
                   <p className="text-xs font-bold text-gov-gray-800 mb-1">IMPORTANT NOTICE</p>
                   <p className="text-xs text-gov-gray-600 leading-relaxed">
@@ -247,7 +247,7 @@ export default function Home() {
 
             {/* Helpdesk */}
             <div className="bg-white rounded-md border border-gov-gray-200 overflow-hidden">
-              <div className="bg-gov-green text-white px-4 py-3">
+              <div className="bg-gov-navy text-white px-4 py-3">
                 <span className="text-sm font-bold">HELPDESK / हेल्पडेस्क</span>
               </div>
               <div className="p-4 space-y-2.5">

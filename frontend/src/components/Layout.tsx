@@ -137,7 +137,7 @@ export default function Layout() {
         <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-8">
           <div className="grid sm:grid-cols-3 gap-8 mb-6">
             <div>
-              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Services</h4>
+              <h4 className="text-sm font-bold mb-3 text-white">Services</h4>
               <div className="space-y-2">
                 {navItems[1].children?.map((s) => (
                   <Link key={s.path} to={s.path} className="block text-xs text-gov-gray-400 hover:text-white transition-colors">
@@ -147,7 +147,7 @@ export default function Layout() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Quick Links</h4>
+              <h4 className="text-sm font-bold mb-3 text-white">Quick Links</h4>
               <div className="space-y-2">
                 <span className="block text-xs text-gov-gray-400">CSC Portal (csc.gov.in)</span>
                 <span className="block text-xs text-gov-gray-400">eDistrict Portal</span>
@@ -156,7 +156,7 @@ export default function Layout() {
               </div>
             </div>
             <div>
-              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Helpline</h4>
+              <h4 className="text-sm font-bold mb-3 text-white">Helpline</h4>
               <p className="text-xs text-gov-gray-400">Toll Free: 1800-XXX-XXXX</p>
               <p className="text-xs text-gov-gray-400 mt-1">Email: help@margdarshak.gov.in</p>
               <p className="text-xs text-gov-gray-400 mt-1">CSC e-Governance, New Delhi</p>

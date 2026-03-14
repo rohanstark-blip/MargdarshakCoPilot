@@ -157,7 +157,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
       {/* Page heading */}
       <div className="mb-6">
         <h1 className="text-xl font-bold text-gov-gray-800">{title}</h1>
-        <p className="text-sm text-gov-saffron font-medium">{titleHindi}</p>
+        <p className="text-sm text-gov-gray-500 font-medium">{titleHindi}</p>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -272,7 +272,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
         {/* CHAT SIDEBAR (1/3) */}
         <section>
           <div className="bg-white rounded-md border border-gov-gray-200 shadow-sm flex flex-col h-[480px] lg:h-[600px] lg:sticky lg:top-4 overflow-hidden">
-            <div className="bg-gov-saffron text-white px-4 py-3 flex items-center justify-between">
+            <div className="bg-gov-blue text-white px-4 py-3 flex items-center justify-between">
               <span className="text-sm font-bold">सहायक / AI Help</span>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-white/60 animate-pulse" />
