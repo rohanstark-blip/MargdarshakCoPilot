@@ -14,6 +14,10 @@ import io
 import logging
 from PIL import Image
 import pytesseract
+import platform
+
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Configure logging for debugging and monitoring
 logging.basicConfig(level=logging.INFO)
