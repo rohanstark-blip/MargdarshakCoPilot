@@ -2,28 +2,17 @@ import { useState } from "react";
 import FormShell from "@/components/FormShell";
 
 export default function OldAgePension() {
-  const [fatherName, setFatherName] = useState("");
-  const [gender, setGender] = useState("");
-  const [aadhaar, setAadhaar] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [annualIncome, setAnnualIncome] = useState("");
   const [incomeSource, setIncomeSource] = useState("");
   const [bankAccount, setBankAccount] = useState("");
   const [ifsc, setIfsc] = useState("");
   const [bankName, setBankName] = useState("");
   const [house, setHouse] = useState("");
-  const [village, setVillage] = useState("");
-  const [postOffice, setPostOffice] = useState("");
-  const [tehsil, setTehsil] = useState("");
-  const [district, setDistrict] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
   const [bplCard, setBplCard] = useState("");
   const [existingPension, setExistingPension] = useState("");
 
   return (
     <FormShell title="Old Age Pension Application" titleHindi="वृद्धा पेंशन योजना — इंदिरा गांधी राष्ट्रीय वृद्धावस्था पेंशन">
-      {({ name, setName, dob, setDob }) => (
+      {({ name, setName, dob, setDob, village, setVillage, postOffice, setPostOffice, tehsil, setTehsil, district, setDistrict, state, setState, pincode, setPincode, fatherName, setFatherName, gender, setGender, aadhaar, setAadhaar, mobile, setMobile, annualIncome, setAnnualIncome }) => (
         <>
           {/* Section: Personal Details */}
           <div className="bg-gov-blue/5 border-l-4 border-gov-blue px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider">

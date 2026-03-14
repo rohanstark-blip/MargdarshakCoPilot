@@ -2,32 +2,19 @@ import { useState } from "react";
 import FormShell from "@/components/FormShell";
 
 export default function CasteCertificate() {
-  const [fatherName, setFatherName] = useState("");
-  const [motherName, setMotherName] = useState("");
-  const [gender, setGender] = useState("");
-  const [aadhaar, setAadhaar] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [religion, setReligion] = useState("");
-  const [caste, setCaste] = useState("");
   const [subCaste, setSubCaste] = useState("");
   const [category, setCategory] = useState("");
   const [fatherCaste, setFatherCaste] = useState("");
   const [ancestralVillage, setAncestralVillage] = useState("");
   const [house, setHouse] = useState("");
   const [mohalla, setMohalla] = useState("");
-  const [village, setVillage] = useState("");
-  const [postOffice, setPostOffice] = useState("");
-  const [tehsil, setTehsil] = useState("");
   const [block, setBlock] = useState("");
-  const [district, setDistrict] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
   const [purpose, setPurpose] = useState("");
   const [parentCertNo, setParentCertNo] = useState("");
 
   return (
     <FormShell title="Caste Certificate Application" titleHindi="जाति प्रमाण पत्र — Jati Praman Patra">
-      {({ name, setName, dob, setDob }) => (
+      {({ name, setName, dob, setDob, village, setVillage, postOffice, setPostOffice, tehsil, setTehsil, district, setDistrict, state, setState, pincode, setPincode, fatherName, setFatherName, motherName, setMotherName, gender, setGender, aadhaar, setAadhaar, mobile, setMobile, caste, setCaste, religion, setReligion }) => (
         <>
           <div className="bg-gov-blue/5 border-l-4 border-gov-blue px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider">
             Personal Details / व्यक्तिगत विवरण

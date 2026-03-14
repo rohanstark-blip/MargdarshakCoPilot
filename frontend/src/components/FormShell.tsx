@@ -10,6 +10,13 @@ const API = "http://localhost:8000";
 
 type VStatus = "idle" | "loading" | "success" | "mismatch" | "error";
 
+interface AddressResult {
+  input: string;
+  document: string;
+  score: number;
+  passed: boolean;
+}
+
 interface VResult {
   status: string;
   matched_name?: string;
@@ -20,6 +27,7 @@ interface VResult {
   reason?: string;
   match_score?: number;
   recommendation?: string;
+  address_results?: Record<string, AddressResult>;
 }
 
 interface Msg { role: "user" | "assistant"; content: string; }
@@ -42,15 +50,46 @@ function ScoreBlock({ label, value, match }: { label: string; value: number; mat
   );
 }
 
+interface AllFields {
+  village: string; setVillage: (v: string) => void;
+  postOffice: string; setPostOffice: (v: string) => void;
+  tehsil: string; setTehsil: (v: string) => void;
+  district: string; setDistrict: (v: string) => void;
+  state: string; setState: (v: string) => void;
+  pincode: string; setPincode: (v: string) => void;
+  fatherName: string; setFatherName: (v: string) => void;
+  motherName: string; setMotherName: (v: string) => void;
+  gender: string; setGender: (v: string) => void;
+  aadhaar: string; setAadhaar: (v: string) => void;
+  mobile: string; setMobile: (v: string) => void;
+  caste: string; setCaste: (v: string) => void;
+  religion: string; setReligion: (v: string) => void;
+  annualIncome: string; setAnnualIncome: (v: string) => void;
+}
+
 interface FormShellProps {
   title: string;
   titleHindi: string;
-  children: (props: { name: string; setName: (v: string) => void; dob: string; setDob: (v: string) => void }) => ReactNode;
+  children: (props: { name: string; setName: (v: string) => void; dob: string; setDob: (v: string) => void } & AllFields) => ReactNode;
 }
 
 export default function FormShell({ title, titleHindi, children }: FormShellProps) {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
+  const [village, setVillage] = useState("");
+  const [postOffice, setPostOffice] = useState("");
+  const [tehsil, setTehsil] = useState("");
+  const [district, setDistrict] = useState("");
+  const [addrState, setAddrState] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [fatherName, setFatherName] = useState("");
+  const [motherName, setMotherName] = useState("");
+  const [gender, setGender] = useState("");
+  const [aadhaar, setAadhaar] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [caste, setCaste] = useState("");
+  const [religion, setReligion] = useState("");
+  const [annualIncome, setAnnualIncome] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [status, setStatus] = useState<VStatus>("idle");
@@ -88,6 +127,20 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
     fd.append("name", name);
     fd.append("dob", dob);
     fd.append("document", file);
+    fd.append("village", village);
+    fd.append("post_office", postOffice);
+    fd.append("tehsil", tehsil);
+    fd.append("district", district);
+    fd.append("state", addrState);
+    fd.append("pincode", pincode);
+    fd.append("father_name", fatherName);
+    fd.append("mother_name", motherName);
+    fd.append("gender", gender);
+    fd.append("aadhaar", aadhaar.replace(/\s/g, ""));
+    fd.append("mobile", mobile);
+    fd.append("caste", caste);
+    fd.append("religion", religion);
+    fd.append("annual_income", annualIncome);
     try {
       const res = await fetch(`${API}/validate-form`, { method: "POST", body: fd });
       const data: VResult = await res.json();
@@ -135,7 +188,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
     setChatInput("");
   };
 
-  const reset = () => { setName(""); setDob(""); setFile(null); setStatus("idle"); setResult(null); };
+  const reset = () => { setName(""); setDob(""); setFile(null); setStatus("idle"); setResult(null); setVillage(""); setPostOffice(""); setTehsil(""); setDistrict(""); setAddrState(""); setPincode(""); setFatherName(""); setMotherName(""); setGender(""); setAadhaar(""); setMobile(""); setCaste(""); setReligion(""); setAnnualIncome(""); };
 
   const topics = [
     { code: "NAME_MISMATCH", hi: "नाम मिसमैच", en: "Name mismatch" },
@@ -174,7 +227,7 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
               </div>
 
               <div className="p-6 space-y-5">
-                {children({ name, setName, dob, setDob })}
+                {children({ name, setName, dob, setDob, village, setVillage, postOffice, setPostOffice, tehsil, setTehsil, district, setDistrict, state: addrState, setState: setAddrState, pincode, setPincode, fatherName, setFatherName, motherName, setMotherName, gender, setGender, aadhaar, setAadhaar, mobile, setMobile, caste, setCaste, religion, setReligion, annualIncome, setAnnualIncome })}
 
                 {/* Separator */}
                 <div className="border-t border-dashed border-gov-gray-300" />
@@ -243,6 +296,9 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
                     <div className="grid sm:grid-cols-2 gap-4">
                       <ScoreBlock label="Name" value={result.match_score_name ?? 0} match={result.matched_name ?? "—"} />
                       <ScoreBlock label="D.O.B." value={result.match_score_dob ?? 0} match={result.matched_dob ?? "—"} />
+                      {result.address_results && Object.entries(result.address_results).map(([field, info]) => (
+                        <ScoreBlock key={field} label={field.replace("_", " ")} value={info.score} match={`${info.document} ↔ ${info.input}`} />
+                      ))}
                     </div>
                   </div>
                 )}

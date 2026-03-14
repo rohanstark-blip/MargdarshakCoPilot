@@ -2,29 +2,18 @@ import { useState } from "react";
 import FormShell from "@/components/FormShell";
 
 export default function IncomeCertificate() {
-  const [fatherName, setFatherName] = useState("");
-  const [gender, setGender] = useState("");
-  const [aadhaar, setAadhaar] = useState("");
-  const [mobile, setMobile] = useState("");
   const [occupation, setOccupation] = useState("");
   const [monthlyIncome, setMonthlyIncome] = useState("");
-  const [annualIncome, setAnnualIncome] = useState("");
   const [incomeSource, setIncomeSource] = useState("");
   const [employerName, setEmployerName] = useState("");
   const [landExtent, setLandExtent] = useState("");
   const [house, setHouse] = useState("");
-  const [village, setVillage] = useState("");
-  const [postOffice, setPostOffice] = useState("");
-  const [tehsil, setTehsil] = useState("");
   const [block, setBlock] = useState("");
-  const [district, setDistrict] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
   const [purpose, setPurpose] = useState("");
 
   return (
     <FormShell title="Income Certificate Application" titleHindi="आय प्रमाण पत्र — Aay Praman Patra">
-      {({ name, setName, dob, setDob }) => (
+      {({ name, setName, dob, setDob, village, setVillage, postOffice, setPostOffice, tehsil, setTehsil, district, setDistrict, state, setState, pincode, setPincode, fatherName, setFatherName, gender, setGender, aadhaar, setAadhaar, mobile, setMobile, annualIncome, setAnnualIncome }) => (
         <>
           <div className="bg-gov-blue/5 border-l-4 border-gov-blue px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider">
             Personal Details / व्यक्तिगत विवरण

@@ -50,11 +50,38 @@ class ChatHelpRequest(BaseModel):
 async def validate_form(
     name: str = Form(...),
     dob: str = Form(...),
-    document: UploadFile = File(...)
+    document: UploadFile = File(...),
+    # Address fields
+    village: str = Form(""),
+    post_office: str = Form(""),
+    tehsil: str = Form(""),
+    district: str = Form(""),
+    state: str = Form(""),
+    pincode: str = Form(""),
+    # Extra fields
+    father_name: str = Form(""),
+    mother_name: str = Form(""),
+    gender: str = Form(""),
+    aadhaar: str = Form(""),
+    mobile: str = Form(""),
+    caste: str = Form(""),
+    religion: str = Form(""),
+    annual_income: str = Form(""),
 ):
     file_bytes = await document.read()
     extracted_text = extract_text_from_pdf(file_bytes)
-    validation_result = validate_application(extracted_text, name, dob)
+    address = {
+        "village": village, "post_office": post_office, "tehsil": tehsil,
+        "district": district, "state": state, "pincode": pincode,
+    }
+    fields = {
+        "father_name": father_name, "mother_name": mother_name,
+        "gender": gender, "aadhaar": aadhaar, "mobile": mobile,
+        "caste": caste, "religion": religion, "annual_income": annual_income,
+    }
+    input_address = address if any(v.strip() for v in address.values()) else None
+    input_fields = fields if any(v.strip() for v in fields.values()) else None
+    validation_result = validate_application(extracted_text, name, dob, input_address, input_fields)
     return validation_result
 
 # ---------------------------------------------------------
