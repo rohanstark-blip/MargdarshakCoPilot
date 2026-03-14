@@ -12,6 +12,8 @@ Purpose: Server-side document parsing for offline-capable CSC validation system
 import fitz  # PyMuPDF
 import io
 import logging
+from PIL import Image
+import pytesseract
 
 # Configure logging for debugging and monitoring
 logging.basicConfig(level=logging.INFO)
@@ -73,13 +75,23 @@ def extract_text_from_pdf(pdf_bytes):
                 # Extract text using the default method (preserves layout)
                 page_text = page.get_text()
                 
-                if page_text.strip():  # Only append non-empty pages
+                if page_text.strip():  # Text-based PDF
                     extracted_text.append(page_text)
                     logger.info(f"✓ Extracted text from page {page_num + 1}")
                 else:
-                    logger.warning(
-                        f"⚠ Page {page_num + 1} appears to be empty or image-only"
-                    )
+                    # OCR fallback for scanned/image-only pages
+                    logger.info(f"⚠ Page {page_num + 1} has no text, trying OCR...")
+                    try:
+                        pix = page.get_pixmap(dpi=300)
+                        img = Image.open(io.BytesIO(pix.tobytes("png")))
+                        ocr_text = pytesseract.image_to_string(img, lang="eng")
+                        if ocr_text.strip():
+                            extracted_text.append(ocr_text)
+                            logger.info(f"✓ OCR extracted text from page {page_num + 1}")
+                        else:
+                            logger.warning(f"⚠ OCR returned empty for page {page_num + 1}")
+                    except Exception as ocr_err:
+                        logger.warning(f"⚠ OCR failed on page {page_num + 1}: {ocr_err}")
                     
             except Exception as e:
                 logger.error(

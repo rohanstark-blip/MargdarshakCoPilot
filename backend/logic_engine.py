@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 SIMILARITY_THRESHOLD = 85
-ADDRESS_THRESHOLD = 90
+ADDRESS_THRESHOLD = 88
 
 # Load spaCy model
 try:
