@@ -1,0 +1,190 @@
+import { Link, useLocation, Outlet } from "react-router-dom";
+import { Fingerprint, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
+
+const navItems = [
+  { path: "/", label: "HOME" },
+  {
+    label: "SERVICES",
+    children: [
+      { path: "/old-age-pension", label: "Old Age Pension / वृद्धा पेंशन" },
+      { path: "/domicile-certificate", label: "Domicile Certificate / निवास प्रमाण पत्र" },
+      { path: "/income-certificate", label: "Income Certificate / आय प्रमाण पत्र" },
+      { path: "/caste-certificate", label: "Caste Certificate / जाति प्रमाण पत्र" },
+    ],
+  },
+  { path: "#", label: "DOWNLOADS" },
+  { path: "#", label: "CONTACT US" },
+];
+
+export default function Layout() {
+  const location = useLocation();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const now = new Date();
+  const dateStr = now.toLocaleDateString("en-IN", { weekday: "long", year: "numeric", month: "long", day: "numeric" });
+  const timeStr = now.toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Top bar — dark navy like NTA */}
+      <div className="bg-gov-navy text-white text-xs">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-1.5 flex items-center justify-between">
+          <span className="uppercase tracking-wider text-[11px]">
+            {dateStr} - {timeStr} IST
+          </span>
+          <div className="flex items-center gap-4">
+            <span className="text-gov-gray-400 text-[11px]">Screen Reader Access</span>
+            <span className="text-gov-gray-400 text-[11px]">Skip to Main Content</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Tricolor strip */}
+      <div className="flex h-1">
+        <div className="flex-1 bg-gov-saffron" />
+        <div className="flex-1 bg-white" />
+        <div className="flex-1 bg-gov-green" />
+      </div>
+
+      {/* Main nav bar — NTA style: logo left, items in row, emblem + lang right */}
+      <nav className="bg-white border-b border-gov-gray-200">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-8 flex items-center h-[42px] gap-6">
+          {/* Logo + emblem */}
+          <Link to="/" className="flex items-center gap-2.5 flex-shrink-0">
+            <div className="w-11 h-11 bg-gov-blue rounded flex items-center justify-center">
+              <Fingerprint size={22} className="text-white" />
+            </div>
+            <div className="leading-tight">
+              <span className="text-gov-blue font-bold text-[15px] block">मार्गदर्शक</span>
+              <span className="text-gov-gray-500 text-[9px] font-medium tracking-wider uppercase block">CSC Co-Pilot Portal</span>
+            </div>
+          </Link>
+
+          {/* Nav links — NTA style inline */}
+          <div className="hidden md:flex items-center gap-0 flex-1">
+            {navItems.map((item) =>
+              item.children ? (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => setDropdownOpen(true)}
+                  onMouseLeave={() => setDropdownOpen(false)}
+                >
+                  <button
+                    className={cn(
+                      "flex items-center gap-1 px-4 h-[42px] text-[13px] font-semibold transition-colors border-b-2",
+                      item.children.some((c) => c.path === location.pathname)
+                        ? "bg-gov-blue text-white border-gov-blue"
+                        : "text-gov-gray-600 hover:text-gov-blue border-transparent"
+                    )}
+                  >
+                    {item.label}
+                    <ChevronDown size={11} />
+                  </button>
+                  {dropdownOpen && (
+                    <div className="absolute top-full left-0 bg-white border border-gov-gray-200 shadow-lg z-50 min-w-[300px]">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.path}
+                          to={child.path}
+                          className={cn(
+                            "block px-4 py-3 text-[13px] font-medium border-b border-gov-gray-100 transition-colors",
+                            location.pathname === child.path
+                              ? "bg-gov-blue text-white"
+                              : "text-gov-gray-600 hover:bg-gov-blue hover:text-white"
+                          )}
+                          onClick={() => setDropdownOpen(false)}
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={cn(
+                    "px-4 h-[42px] flex items-center text-[13px] font-semibold transition-colors border-b-2",
+                    location.pathname === item.path
+                      ? "bg-gov-blue text-white border-gov-blue"
+                      : "text-gov-gray-600 hover:text-gov-blue border-transparent"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
+          </div>
+
+          {/* Right side: emblem text + language selector */}
+          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <div className="text-right leading-tight">
+              <span className="text-[10px] font-bold text-gov-gray-700 block">Digital India</span>
+              <span className="text-[9px] text-gov-gray-400 block">डिजिटल इंडिया</span>
+            </div>
+            <div className="bg-gov-blue text-white flex items-center gap-2 rounded-full px-4 py-2 cursor-pointer">
+              <span className="text-xs">🌐</span>
+              <span className="text-xs font-semibold">English</span>
+              <ChevronDown size={10} />
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Page content */}
+      <main className="flex-1 bg-gov-gray-50">
+        <Outlet />
+      </main>
+
+      {/* Footer */}
+      <footer className="bg-gov-navy text-white">
+        <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-8">
+          <div className="grid sm:grid-cols-3 gap-8 mb-6">
+            <div>
+              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Services</h4>
+              <div className="space-y-2">
+                {navItems[1].children?.map((s) => (
+                  <Link key={s.path} to={s.path} className="block text-xs text-gov-gray-400 hover:text-white transition-colors">
+                    {s.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Quick Links</h4>
+              <div className="space-y-2">
+                <span className="block text-xs text-gov-gray-400">CSC Portal (csc.gov.in)</span>
+                <span className="block text-xs text-gov-gray-400">eDistrict Portal</span>
+                <span className="block text-xs text-gov-gray-400">UMANG Mobile App</span>
+                <span className="block text-xs text-gov-gray-400">DigiLocker</span>
+              </div>
+            </div>
+            <div>
+              <h4 className="text-sm font-bold mb-3 text-gov-saffron">Helpline</h4>
+              <p className="text-xs text-gov-gray-400">Toll Free: 1800-XXX-XXXX</p>
+              <p className="text-xs text-gov-gray-400 mt-1">Email: help@margdarshak.gov.in</p>
+              <p className="text-xs text-gov-gray-400 mt-1">CSC e-Governance, New Delhi</p>
+            </div>
+          </div>
+          {/* Tricolor line */}
+          <div className="flex h-0.5 mb-4">
+            <div className="flex-1 bg-gov-saffron" />
+            <div className="flex-1 bg-white" />
+            <div className="flex-1 bg-gov-green" />
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-gov-gray-500">
+              © 2026 Margdarshak — CSC Co-Pilot Portal | Government of India
+            </span>
+            <span className="text-[11px] text-gov-gray-500">
+              AI Validation Engine v1.0
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
