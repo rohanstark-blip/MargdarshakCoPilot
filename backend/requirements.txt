@@ -5,3 +5,5 @@ rapidfuzz
 pymupdf
 python-multipart
 pydantic
+httpx
+python-dotenv

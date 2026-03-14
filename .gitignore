@@ -41,8 +41,11 @@ Thumbs.db
 
 # Node/Frontend
 frontend/node_modules/
+.env
+.env.local
 frontend/.env
 frontend/.env.local
+backend/.env
 frontend/dist/
 
 # Data

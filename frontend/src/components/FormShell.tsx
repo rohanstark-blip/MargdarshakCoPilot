@@ -4,6 +4,7 @@ import {
   Send, Loader2, ArrowRight, RotateCcw,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ReactMarkdown from "react-markdown";
 
 const API = "http://localhost:8000";
 
@@ -100,16 +101,23 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
     }
   };
 
-  const askChat = async (code: string) => {
+  const [chatInput, setChatInput] = useState("");
+
+  const askChat = async (code: string, freeText?: string) => {
     const labels: Record<string, string> = {
       NAME_MISMATCH: "नाम मिसमैच", AGE_MISMATCH: "आयु / DOB त्रुटि", DOC_UNREADABLE: "दस्तावेज़ त्रुटि",
     };
-    setMessages((p) => [...p, { role: "user", content: labels[code] || code }]);
+    const displayText = freeText || labels[code] || code;
+    const userMsg: Msg = { role: "user", content: displayText };
+    setMessages((p) => { const next = [...p, userMsg]; console.log("CHAT STATE after user msg:", next); return next; });
     setChatLoading(true);
     try {
+      const body = freeText
+        ? { message: freeText }
+        : { error_code: code };
       const res = await fetch(`${API}/chat-help`, {
         method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error_code: code }),
+        body: JSON.stringify(body),
       });
       const data = await res.json();
       setMessages((p) => [...p, { role: "assistant", content: data.reply }]);
@@ -119,6 +127,12 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
       setChatLoading(false);
       setTimeout(() => chatEnd.current?.scrollIntoView({ behavior: "smooth" }), 80);
     }
+  };
+
+  const handleChatSubmit = () => {
+    if (!chatInput.trim() || chatLoading) return;
+    askChat("", chatInput.trim());
+    setChatInput("");
   };
 
   const reset = () => { setName(""); setDob(""); setFile(null); setStatus("idle"); setResult(null); };
@@ -285,14 +299,22 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
                 </div>
               ) : (
                 <>
-                  {messages.map((msg, i) => (
-                    <div key={i} className={cn("flex", msg.role === "user" ? "justify-end" : "justify-start")}>
-                      <div className={cn("max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed rounded-lg",
-                        msg.role === "user" ? "bg-gov-blue text-white" : "bg-gov-gray-100 text-gov-gray-800")}>
-                        {msg.content}
+                  {messages.map((msg, i) =>
+                    msg.role === "user" ? (
+                      <div key={i} className="flex justify-end">
+                        <div className="max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed rounded-lg"
+                          style={{ background: "#1e3a8a", color: "#ffffff" }}>
+                          {msg.content}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ) : (
+                      <div key={i} className="flex justify-start">
+                        <div className="max-w-[85%] px-3.5 py-2.5 text-sm leading-relaxed rounded-lg bg-gov-gray-100 text-gov-gray-800 chat-markdown">
+                          <ReactMarkdown>{msg.content}</ReactMarkdown>
+                        </div>
+                      </div>
+                    )
+                  )}
                   {chatLoading && (
                     <div className="flex justify-start">
                       <div className="bg-gov-gray-100 rounded-lg px-4 py-3">
@@ -308,18 +330,37 @@ export default function FormShell({ title, titleHindi, children }: FormShellProp
                 </>
               )}
             </div>
-            {messages.length > 0 && (
-              <div className="px-3 py-2.5 border-t border-gov-gray-200 bg-gov-gray-50">
-                <div className="flex gap-2 flex-wrap">
-                  {topics.map((t) => (
-                    <button key={t.code} onClick={() => askChat(t.code)} disabled={chatLoading}
-                      className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium text-gov-gray-600 border border-gov-gray-200 rounded hover:border-gov-blue-light hover:text-gov-blue transition-colors disabled:opacity-40">
-                      <Send size={9} />{t.en}
-                    </button>
-                  ))}
-                </div>
+            {/* Chat input + quick actions */}
+            <div className="border-t border-gov-gray-200 bg-gov-gray-50">
+              {/* Text input */}
+              <div className="px-3 pt-2.5 pb-1.5 flex gap-2">
+                <input
+                  type="text"
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleChatSubmit()}
+                  placeholder="Type your question..."
+                  disabled={chatLoading}
+                  className="flex-1 px-3 py-2 text-sm border border-gov-gray-200 rounded outline-none focus:border-gov-blue-light disabled:opacity-50"
+                />
+                <button
+                  onClick={handleChatSubmit}
+                  disabled={!chatInput.trim() || chatLoading}
+                  className="px-3 py-2 bg-gov-blue text-white rounded hover:bg-gov-blue-hover transition-colors disabled:opacity-40"
+                >
+                  <Send size={14} />
+                </button>
               </div>
-            )}
+              {/* Quick topics */}
+              <div className="px-3 pb-2.5 flex gap-2 flex-wrap">
+                {topics.map((t) => (
+                  <button key={t.code} onClick={() => askChat(t.code)} disabled={chatLoading}
+                    className="flex items-center gap-1 px-2.5 py-1 text-[11px] font-medium text-gov-gray-600 border border-gov-gray-200 rounded hover:border-gov-blue-light hover:text-gov-blue transition-colors disabled:opacity-40">
+                    {t.en}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       </div>

@@ -40,13 +40,6 @@ export default function Layout() {
         </div>
       </div>
 
-      {/* Tricolor strip */}
-      <div className="flex h-1">
-        <div className="flex-1 bg-gov-saffron" />
-        <div className="flex-1 bg-white" />
-        <div className="flex-1 bg-gov-green" />
-      </div>
-
       {/* Main nav bar — NTA style: logo left, items in row, emblem + lang right */}
       <nav className="bg-white border-b border-gov-gray-200">
         <div className="max-w-[1200px] mx-auto px-4 lg:px-8 flex items-center h-[42px] gap-6">
@@ -169,13 +162,7 @@ export default function Layout() {
               <p className="text-xs text-gov-gray-400 mt-1">CSC e-Governance, New Delhi</p>
             </div>
           </div>
-          {/* Tricolor line */}
-          <div className="flex h-0.5 mb-4">
-            <div className="flex-1 bg-gov-saffron" />
-            <div className="flex-1 bg-white" />
-            <div className="flex-1 bg-gov-green" />
-          </div>
-          <div className="flex items-center justify-between">
+          <div className="border-t border-gov-gray-700 pt-4 mt-2 flex items-center justify-between">
             <span className="text-[11px] text-gov-gray-500">
               © 2026 Margdarshak — CSC Co-Pilot Portal | Government of India
             </span>
