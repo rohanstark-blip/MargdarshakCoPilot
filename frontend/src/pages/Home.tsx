@@ -76,7 +76,7 @@ export default function Home() {
               </p>
               <Link to="/old-age-pension"
                 className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-bold rounded shadow-md uppercase tracking-wider" style={{ background: "#2b6cb0", color: "#ffffff" }}>
-                {t("Read More", "और पढ़ें")} <ArrowRight size={14} />
+                {t("VIew Application Forms", "और पढ़ें")} <ArrowRight size={14} />
               </Link>
             </div>
 
