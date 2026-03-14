@@ -16,8 +16,8 @@ const navItemsData = {
         { path: "/caste-certificate", label: "Caste Certificate" },
       ],
     },
-    { path: "#", label: "DOWNLOADS" },
-    { path: "#", label: "CONTACT US" },
+    { path: "#downloads", label: "DOWNLOADS" },
+    { path: "#contact", label: "CONTACT US" },
   ],
   hi: [
     { path: "/", label: "होम" },
@@ -30,8 +30,8 @@ const navItemsData = {
         { path: "/caste-certificate", label: "जाति प्रमाण पत्र" },
       ],
     },
-    { path: "#", label: "डाउनलोड" },
-    { path: "#", label: "संपर्क करें" },
+    { path: "#downloads", label: "डाउनलोड" },
+    { path: "#contact", label: "संपर्क करें" },
   ],
 };
 

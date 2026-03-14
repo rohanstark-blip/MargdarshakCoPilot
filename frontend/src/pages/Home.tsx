@@ -9,6 +9,13 @@ const services = [
   { path: "/caste-certificate", en: "Caste Certificate", hi: "जाति प्रमाण पत्र", descEn: "SC/ST/OBC caste verification", descHi: "SC/ST/OBC जाति सत्यापन", icon: "📋" },
 ];
 
+const stats = [
+  { icon: FileText, value: "4", labelEn: "Services Available", labelHi: "उपलब्ध सेवाएं" },
+  { icon: Users, value: "1.2L+", labelEn: "Applications Processed", labelHi: "आवेदन संसाधित" },
+  { icon: Shield, value: "99.2%", labelEn: "Validation Accuracy", labelHi: "सत्यापन सटीकता" },
+  { icon: Clock, value: "<30s", labelEn: "Avg Processing Time", labelHi: "औसत प्रसंस्करण समय" },
+];
+
 const announcements = [
   "Old Age Pension applications now open for FY 2026-27 — Apply before 31st March 2026",
   "New: AI-powered document validation reduces application rejection by 85%",
@@ -107,11 +114,11 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto px-4 lg:px-8 py-4">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((s) => (
-              <div key={s.label} className="flex items-center gap-3">
+              <div key={s.labelEn} className="flex items-center gap-3">
                 <s.icon size={18} className="text-white/70" />
                 <div>
                   <p className="text-xl font-bold text-white">{s.value}</p>
-                  <p className="text-[10px] text-white/70 uppercase tracking-wider">{s.label}</p>
+                  <p className="text-[10px] text-white/70 uppercase tracking-wider">{t(s.labelEn, s.labelHi)}</p>
                 </div>
               </div>
             ))}
