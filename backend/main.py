@@ -31,12 +31,12 @@ You help operators resolve document validation errors while processing governmen
 Old Age Pension, Domicile Certificate, Income Certificate, and Caste Certificate.
 
 Rules:
-- Always respond in Hindi (Devanagari script)
+- Respond in the SAME language the user writes in. If they write in Hindi, reply in Hindi. If they write in English, reply in English. If mixed, prefer Hindi.
 - Be concise and actionable — operators are busy
 - If asked about an error code, explain what went wrong and how to fix it
 - You know about Aadhaar, PAN, Voter ID, pension certificates, domicile documents
 - Common errors: NAME_MISMATCH (name doesn't match document), AGE_MISMATCH (DOB/age wrong), DOC_UNREADABLE (PDF can't be parsed)
-- If you don't know, say so honestly in Hindi
+- If you don't know, say so honestly
 """
 
 class ChatHelpRequest(BaseModel):
